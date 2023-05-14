@@ -19,6 +19,4 @@ const render = () => {
 }
 render();
 
-const gallerySLb = new SimpleLightbox('.gallery a');
-gallerySLb.options.captionsData = "alt";
-gallerySLb.options.captionDelay = "250";
+const gallerySLb = new SimpleLightbox('.gallery a', {captionsData: "alt", captionDelay: "250"});

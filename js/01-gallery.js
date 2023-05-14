@@ -1,4 +1,56 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
+const gallery = document.querySelector(".gallery");
 
-console.log(galleryItems);
+const createGalleryItem = (largeImg, smallImg, imgDescription) => {
+    return `<li class="gallery__item">
+  <a class="gallery__link" href="${largeImg}">
+    <img
+      class="gallery__image"
+      src="${smallImg}"
+      data-source="${largeImg}"
+      alt="${imgDescription}"
+    />
+  </a>
+</li>`};
+
+const render = () => {
+    const images = galleryItems.map(({ original, preview, description }) => createGalleryItem(original, preview, description));
+    gallery.insertAdjacentHTML('beforeend', images.join(''));
+}
+
+render();
+
+const modal = basicLightbox.create(`
+       <img
+           src=""
+           alt=""
+        />
+  `);
+
+const removeListeners = () => {
+    document.removeEventListener("keydown", keyDown);
+    modal.element().removeEventListener("click", removeListeners);
+}
+
+const keyDown = (e)=> {
+    if (e.key === "Escape") {
+            removeListeners();
+            modal.close();
+        }
+}
+
+const showLargeImg = (e) => {
+    e.preventDefault();
+    if (e.target.classList.contains("gallery__image")) {
+        const refsLargeImg = e.target.getAttribute("data-source");
+        const imgAlt = e.target.getAttribute("alt");
+        modal.element().firstElementChild.firstElementChild.setAttribute("src", refsLargeImg);
+        modal.element().firstElementChild.firstElementChild.setAttribute("alt", imgAlt);
+        modal.element().addEventListener("click", removeListeners);
+        modal.show();
+        document.addEventListener("keydown", keyDown);
+    }
+};
+
+gallery.addEventListener("click", showLargeImg);

@@ -1,5 +1,6 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
+// rendering
 const gallery = document.querySelector(".gallery");
 
 const createGalleryItem = (largeImg, smallImg, imgDescription) => {
@@ -21,12 +22,15 @@ const render = () => {
 
 render();
 
+// modal
 const modal = basicLightbox.create(`
        <img
            src=""
            alt=""
         />
   `);
+
+const refModalImg = modal.element().querySelector("img");
 
 const removeListeners = () => {
     document.removeEventListener("keydown", keyDown);
@@ -43,10 +47,10 @@ const keyDown = (e)=> {
 const showLargeImg = (e) => {
     e.preventDefault();
     if (e.target.classList.contains("gallery__image")) {
-        const refsLargeImg = e.target.getAttribute("data-source");
+        const refLargeImg = e.target.getAttribute("data-source");
         const imgAlt = e.target.getAttribute("alt");
-        modal.element().firstElementChild.firstElementChild.setAttribute("src", refsLargeImg);
-        modal.element().firstElementChild.firstElementChild.setAttribute("alt", imgAlt);
+        refModalImg.setAttribute("src", refLargeImg);
+        refModalImg.setAttribute("alt", imgAlt);
         modal.element().addEventListener("click", removeListeners);
         modal.show();
         document.addEventListener("keydown", keyDown);
